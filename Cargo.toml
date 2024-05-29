@@ -1,5 +1,5 @@
 [package]
-name = "fibbonacci-dp"
+name = "fibonacci-dp"
 version = "0.1.0"
 edition = "2021"
 
