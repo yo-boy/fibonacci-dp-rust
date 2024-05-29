@@ -1,26 +1,26 @@
-const NUM: usize = 1000;
+use std::collections::HashMap;
 
 fn main() {
-    let mut found: [bool; NUM] = [false; NUM];
-    let mut val: [usize; NUM] = [0; NUM];
-    for i in 0..40 {
-        println!("{}: {}", i, fib_db(i, found, val));
+    let mut cache: HashMap<usize, u128> = HashMap::new();
+    for i in 0..186 {
+        println!("{}: {}", i, fib_db(i, &mut cache));
+    }
+    for i in 2..186 {
+        print!("{}, ", cache.get(&i).unwrap());
     }
 }
 
-fn fib_db(n: usize, mut found: [bool; NUM], mut val: [usize; NUM]) -> usize {
-    if found[n] {
-        return val[n];
+fn fib_db(n: usize, cache: &mut HashMap<usize, u128>) -> u128 {
+    if cache.contains_key(&n) {
+        return *cache.get(&n).unwrap();
     }
-
     if n == 0 {
         return 0;
     }
     if n == 1 {
         return 1;
     }
-
-    found[n] = true;
-    val[n] = fib_db(n - 1, found, val) + fib_db(n - 2, found, val);
-    return val[n];
+    let result = fib_db(n - 1, cache) + fib_db(n - 2, cache);
+    cache.insert(n, result);
+    return result;
 }
